@@ -22,4 +22,9 @@ public class LibraryController {
         return "Welcome to User Registration";
     }
 
+    @PostMapping("/addBook")
+    public String AddBook(){
+        return "Welcome to Add Book";
+    }
+
 }
