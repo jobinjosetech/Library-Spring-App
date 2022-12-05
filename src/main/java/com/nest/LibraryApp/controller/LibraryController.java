@@ -12,4 +12,24 @@ public class LibraryController {
         return "Welcome to admin Login";
     }
 
+    @PostMapping("/userLogin")
+    public String UserLogin(){
+        return "Welcome to User Login";
+    }
+
+    @PostMapping("/userRegistration")
+    public String UserRegistration(){
+        return "Welcome to User Registration";
+    }
+
+    @PostMapping("/addBook")
+    public String AddBook(){
+        return "Welcome to Add Book";
+    }
+
+    @GetMapping("/viewBook")
+    public String ViewBook(){
+        return "Welcome to View Book";
+    }
+
 }
