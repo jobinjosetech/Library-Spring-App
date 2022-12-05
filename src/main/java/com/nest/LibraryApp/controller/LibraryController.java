@@ -27,7 +27,7 @@ public class LibraryController {
         return "Welcome to Add Book";
     }
 
-    @PostMapping("/viewBook")
+    @GetMapping("/viewBook")
     public String ViewBook(){
         return "Welcome to View Book";
     }
