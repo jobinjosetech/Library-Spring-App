@@ -1,8 +1,10 @@
 package com.nest.LibraryApp.controller;
 
 import com.nest.LibraryApp.dao.BookDao;
+import com.nest.LibraryApp.dao.IssueDao;
 import com.nest.LibraryApp.dao.UserDao;
 import com.nest.LibraryApp.model.BooksModel;
+import com.nest.LibraryApp.model.IssueModel;
 import com.nest.LibraryApp.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,8 @@ public class LibraryController {
     private UserDao udao;
     @Autowired
     private BookDao bdao;
+    @Autowired
+    private IssueDao idao;
 
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
@@ -32,9 +36,13 @@ public class LibraryController {
         if(result.size()==0){
             st.put("status","failed");
             st.put("message","User Credential Error");
+
         }else{
             st.put("status","success");
             st.put("message","user login success");
+            st.put("userId",String.valueOf(result.get(0).getId()));
+            st.put("email",String.valueOf(result.get(0).getEmail()));
+            st.put("name",String.valueOf(result.get(0).getName()));
         }
         return st;
     }
@@ -91,9 +99,13 @@ public class LibraryController {
         return map;
     }
 
-    @PostMapping("/issueBook")
-    public String IssueBook(){
-        return "Welcome to Issue Book";
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/issueBook", consumes = "application/json", produces = "application/json")
+    public HashMap<String, String> IssueBook(@RequestBody IssueModel im){
+        idao.save(im);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status","success");
+        return map;
     }
 
     @CrossOrigin(origins = "*")
@@ -109,5 +121,21 @@ public class LibraryController {
         List<BooksModel> result = (List<BooksModel>) bdao.findAll();
         return result;
     }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/getUserIssue", consumes = "application/json", produces = "application/json")
+    public List<IssueModel> GetUserIssues(@RequestBody IssueModel im){
+        List<IssueModel> result = (List<IssueModel>) idao.GetUserIssues(im.getUserId());
+
+        return result;
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getBookIssue")
+    public List<IssueModel> GetBookIssues(){
+        List<IssueModel> result = (List<IssueModel>) idao.findAll();
+        return result;
+    }
+
 
 }
